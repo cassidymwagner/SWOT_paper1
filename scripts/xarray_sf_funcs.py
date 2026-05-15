@@ -945,7 +945,7 @@ def format_datasets(ds_list_computed, dx, dy, sf_type="asf", xvar="x", yvar="y",
         if f"{sf_type}_shift_{yvar}_down" in arr
     ]
     ds_list_diag_upleft = [
-        xr.DataArray(arr[f"{sf_type}_shift_diag_upleft"], dims=[dim])
+        xr.DataArray(arr[f"{sf_type}_shift_diag_upleft"], dims=dim)
         for arr in ds_list_computed
         if f"{sf_type}_shift_diag_upleft" in arr
     ]
