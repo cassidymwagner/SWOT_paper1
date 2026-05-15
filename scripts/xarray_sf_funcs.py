@@ -11,7 +11,6 @@ import dask.bag as db
 import pandas as pd
 import glob
 import time
-import finufft
 
 # _SWOT_L4_CACHE = None
 
@@ -933,15 +932,15 @@ def compute_fourier_flux(ds, xvar="x", yvar="y", uvar="u", vvar="v", dx=1, dy=1)
     )
     return ds_tmp
 
-def format_datasets(ds_list_computed, dx, dy, sf_type="asf", xvar="x", yvar="y",dim="time"):
+def format_datasets(ds_list_computed, dx, dy, sf_type="asf", xvar="x", yvar="y",dim=["time"]):
 
     ds_list_left = [
-        xr.DataArray(arr[f"{sf_type}_shift_{xvar}_left"], dims=[dim])
+        xr.DataArray(arr[f"{sf_type}_shift_{xvar}_left"], dims=dim)
         for arr in ds_list_computed
         if f"{sf_type}_shift_{xvar}_left" in arr
     ]
     ds_list_down = [
-        xr.DataArray(arr[f"{sf_type}_shift_{yvar}_down"], dims=[dim])
+        xr.DataArray(arr[f"{sf_type}_shift_{yvar}_down"], dims=dim)
         for arr in ds_list_computed
         if f"{sf_type}_shift_{yvar}_down" in arr
     ]
@@ -951,7 +950,7 @@ def format_datasets(ds_list_computed, dx, dy, sf_type="asf", xvar="x", yvar="y",
         if f"{sf_type}_shift_diag_upleft" in arr
     ]
     ds_list_diag_upright = [
-        xr.DataArray(arr[f"{sf_type}_shift_diag_upright"], dims=[dim])
+        xr.DataArray(arr[f"{sf_type}_shift_diag_upright"], dims=dim)
         for arr in ds_list_computed
         if f"{sf_type}_shift_diag_upright" in arr
     ]
