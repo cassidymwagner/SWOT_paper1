@@ -460,7 +460,7 @@ def get_bessels(
     # Taper the structure function if specified
     if taper_SF:
         sf = ds_tmp[var]
-        sf_tapered = sf * np.sin(np.linspace(np.pi / 2, np.pi, len(sf)))[:, np.newaxis]
+        sf_tapered = sf * np.sin(np.linspace(np.pi / 2, np.pi, len(sf)))[:, np.newaxis] # note to try different power of the sine function to see how it affects the results, e.g. np.sin(np.linspace(np.pi / 2, np.pi, len(sf)))[:, np.newaxis]**2
         ds_tmp[f"{var}_tapered"] = sf_tapered
         var = f"{var}_tapered"
 
@@ -700,7 +700,7 @@ def coarse_grain(
     dy=1,
     size=1,
 ):
-    ds_tmp = ds
+    ds_tmp = ds.copy()
 
     if filter == "gaussian":
         func = gaussian_filter
