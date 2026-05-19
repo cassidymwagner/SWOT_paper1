@@ -63,6 +63,26 @@ wheels = [
 ]
 
 [[package]]
+name = "bokeh"
+version = "3.9.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "contourpy" },
+    { name = "jinja2" },
+    { name = "narwhals" },
+    { name = "numpy" },
+    { name = "packaging" },
+    { name = "pillow" },
+    { name = "pyyaml" },
+    { name = "tornado", marker = "sys_platform != 'emscripten'" },
+    { name = "xyzservices" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bf/0d/fabb70707646217e4b0e3943e05730eab8c1f7b7e7485145f8594b52e606/bokeh-3.9.0.tar.gz", hash = "sha256:775219714a8496973ddbae16b1861606ba19fe670a421e4d43267b41148e07a3", size = 5740345, upload-time = "2026-03-11T17:58:34.062Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/47/0b/bdf449df87be3f07b23091ceafee8c3ef569cf6d2fb7edec6e3b12b3faa4/bokeh-3.9.0-py3-none-any.whl", hash = "sha256:b252bfb16a505f0e0c57d532d0df308ae1667235bafc622aa9441fe9e7c5ce4a", size = 6396068, upload-time = "2026-03-11T17:58:31.645Z" },
+]
+
+[[package]]
 name = "cartopy"
 version = "0.25.0"
 source = { registry = "https://pypi.org/simple" }
@@ -873,6 +893,15 @@ wheels = [
 ]
 
 [[package]]
+name = "narwhals"
+version = "2.21.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/cf/a0/6198c56d42ef2f3c6ed0c42ba30dbcefdc86a91262d7d449010770ae085b/narwhals-2.21.2.tar.gz", hash = "sha256:5c5b2d0b47aef7c73ea412cfcbcd467f2f2d5be73e3c2ab19d78f4a97718790a", size = 632176, upload-time = "2026-05-16T08:49:08.314Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1d/77/928ea2e70641ca177a11140062cc5840d421795f2e82749d408d0cce900a/narwhals-2.21.2-py3-none-any.whl", hash = "sha256:7bb57c3700486039215455b9bf2d64261915cc0fd845cc30272d631df696b251", size = 451201, upload-time = "2026-05-16T08:49:05.536Z" },
+]
+
+[[package]]
 name = "nest-asyncio"
 version = "1.6.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1575,6 +1604,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "astropy" },
+    { name = "bokeh" },
     { name = "cartopy" },
     { name = "dask" },
     { name = "distributed" },
@@ -1593,6 +1623,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "astropy", specifier = ">=7.2.0" },
+    { name = "bokeh", specifier = ">=3.9.0" },
     { name = "cartopy", specifier = ">=0.25.0" },
     { name = "dask", specifier = ">=2026.3.0" },
     { name = "distributed", specifier = ">=2026.3.0" },
@@ -1691,6 +1722,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/4b/a6/6fe936a798a3a38a79c7422d1a31afd2e9a14690fcb0ccff96bc01f04bf2/xarray-2026.4.0.tar.gz", hash = "sha256:c4ac9a01a945d90d5b1628e2af045099a9d4943536d4f2ee3ae963c3b222d15b", size = 3132311, upload-time = "2026-04-13T19:45:36.688Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/dc/83/6d810a8a9ebc9c307989b418840c20e46907c74d707beb67ab566773e6fc/xarray-2026.4.0-py3-none-any.whl", hash = "sha256:d43751d9fb4a90f9249c30431684f00c41bc874f1edccd862631a40cbc0edf08", size = 1414326, upload-time = "2026-04-13T19:45:34.659Z" },
+]
+
+[[package]]
+name = "xyzservices"
+version = "2026.3.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f6/08/3cb9f67a8d48021aca2a02292cc26eecd71d949ae70ad66420a8730cc302/xyzservices-2026.3.0.tar.gz", hash = "sha256:d226866a5d8e9fef337034d8da37a8298f0a1d9d1489b4018e69579eb321fea4", size = 1135736, upload-time = "2026-03-30T14:42:25.596Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a8/a9/d23012099dc88ec69a29c6407b41d89681cb674c2043cd5b467c7e299c08/xyzservices-2026.3.0-py3-none-any.whl", hash = "sha256:503183d4b322bfebc3c50cdd21192aa3e81e36c5efbf9133d54ae82143e0576b", size = 94101, upload-time = "2026-03-30T14:42:24.608Z" },
 ]
 
 [[package]]
