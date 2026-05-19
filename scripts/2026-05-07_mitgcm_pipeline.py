@@ -55,7 +55,7 @@ def _timeout_handler(signum, frame):
 signal.signal(signal.SIGALRM, _timeout_handler)
 
 
-def mitgcm_pipeline(client, region_list, output_dir, run_new):
+def mitgcm_pipeline(client, region_list, output_dir, run_new, max_dates=None):
 
     output_dir_tmp = output_dir
     dates = [f"{str(year).zfill(4)}{str(month).zfill(2)}{str(day).zfill(2)}" for year in [2011, 2012] for month in range(1, 13) for day in range(1, 32)]
@@ -72,14 +72,17 @@ def mitgcm_pipeline(client, region_list, output_dir, run_new):
     ASF = True
     LLL = True
     CG = True
-    scalar = "q"
+    scalar = None
     Bessels = True
     timemean_removal_method = "snapshot_mean"  # options: None, "snapshot_mean"
     taper_SF = True
-    coarsen = 5 # coarsen from 1/48 deg to 1/9.6 deg resolution
+    coarsen = None # coarsen from 1/48 deg to 1/9.6 deg resolution
 
 
     for idx, date in enumerate(dates):
+        if max_dates and int(date) > int(max_dates):
+            print(f"Reached max_dates limit of {max_dates}. Stopping further processing.")
+            break
         print(f"Processing date: {date}")
 
         for region in region_list:
@@ -90,7 +93,7 @@ def mitgcm_pipeline(client, region_list, output_dir, run_new):
             
             suffix = ""
             suffix += f"_{region}_{date}"
-            suffix += f"_coarsen_to_1div{(48 / coarsen):.1f}deg"
+            suffix += f"_coarsen_to_1div{(48 / coarsen):.1f}deg" if coarsen else ""
             suffix += f"_timemean_removed_{timemean_removal_method}" if timemean_removal_method else ""
             suffix += f"{scalar}" if scalar else ""
             suffix += "_LLL" if LLL else ""
@@ -147,16 +150,17 @@ if __name__ == "__main__":
     client = create_client()
 
     region_list = [
-        # 'acc', 
-        'nwpacific', 
-        'capebasin', 
-        'labradorsea', 
-        'newcaledonia', 
-        'nwaustralia', 
-        'westatlantic',
+        'acc', 
+        # 'nwpacific', 
+        # 'capebasin', 
+        # 'labradorsea', 
+        # 'newcaledonia', 
+        # 'nwaustralia', 
+        # 'westatlantic',
         ]
 
-    output_dir = "data/MITgcm/2026-05-11"
+    output_dir = "data/MITgcm/2026-05-18"
     run_new = False
+    max_dates = "20110913" # set to a string representing an integer to limit number of dates processed for testing
 
-    mitgcm_pipeline(client, region_list, output_dir, run_new)
+    mitgcm_pipeline(client, region_list, output_dir, run_new, max_dates)

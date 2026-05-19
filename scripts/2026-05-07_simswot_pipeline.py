@@ -15,12 +15,12 @@ warnings.filterwarnings("ignore")
 
 region_dict = {
     'acc': {'lat_north': -53, 'lat_south': -57.5, 'lon_east': 158, 'lon_west': 148, 'reduce_xd_num': 1},
-    'nwpacific': {'lat_north': 23, 'lat_south': 19, 'lon_east': 137, 'lon_west': 132, 'reduce_xd_num': 1},
-    'capebasin': {'lat_north': -41.01421, 'lat_south': -44.99279, 'lon_east': 16, 'lon_west': 11, 'reduce_xd_num': 1},
-    'newcaledonia': {'lat_north': -22, 'lat_south': -26, 'lon_east': 171, 'lon_west': 166, 'reduce_xd_num': 1},
-    'nwaustralia': {'lat_north': -11, 'lat_south': -15, 'lon_east': 125, 'lon_west': 120, 'reduce_xd_num': 1},
-    'westatlantic': {'lat_north': 38.7, 'lat_south': 32.7, 'lon_east': -73, 'lon_west': -76, 'reduce_xd_num': 1},
-    'labradorsea': {'lat_north': 63.79824, 'lat_south': 59.5549, 'lon_east': -58.52856, 'lon_west': -63.61784, 'reduce_xd_num': 1},
+    # 'nwpacific': {'lat_north': 23, 'lat_south': 19, 'lon_east': 137, 'lon_west': 132, 'reduce_xd_num': 1},
+    # 'capebasin': {'lat_north': -41.01421, 'lat_south': -44.99279, 'lon_east': 16, 'lon_west': 11, 'reduce_xd_num': 1},
+    # 'newcaledonia': {'lat_north': -22, 'lat_south': -26, 'lon_east': 171, 'lon_west': 166, 'reduce_xd_num': 1},
+    # 'nwaustralia': {'lat_north': -11, 'lat_south': -15, 'lon_east': 125, 'lon_west': 120, 'reduce_xd_num': 1},
+    # 'westatlantic': {'lat_north': 38.7, 'lat_south': 32.7, 'lon_east': -73, 'lon_west': -76, 'reduce_xd_num': 1},
+    # 'labradorsea': {'lat_north': 63.79824, 'lat_south': 59.5549, 'lon_east': -58.52856, 'lon_west': -63.61784, 'reduce_xd_num': 1},
     # 'Florida': {'lat_north': 29, 'lat_south': 24, 'lon_east': -77, 'lon_west': -82, 'reduce_xd_num': 1},
     # 'GrandBanks': {'lat_north': 40, 'lat_south': 35, 'lon_east': -45, 'lon_west': -50, 'reduce_xd_num': 1},
     # 'Arbic': {'lat_north': 43, 'lat_south': 27.5, 'lon_east': -40, 'lon_west': -60, 'reduce_xd_num': 1},
@@ -105,7 +105,7 @@ region_skips = [
     # "newcaledonia", "already processed",
 ]
 
-def simswot_pipeline(SIMSWOT_PHASE, client, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen):
+def simswot_pipeline(SIMSWOT_PHASE, client, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen, max_cycles=None):
 
     try:
         print(f"Starting SWOT L3 pipeline for phase: {SIMSWOT_PHASE}")
@@ -122,6 +122,9 @@ def simswot_pipeline(SIMSWOT_PHASE, client, output_dir, run_new, ASF, LLL, CG, s
         ))
 
         for idx, cycnum in enumerate(cycles):
+            if int(max_cycles) and idx >= int(max_cycles):
+                print(f"Reached max_cycles limit of {max_cycles}. Stopping further processing.")
+                break
             print(f"\nProcessing cycle: {cycnum} of {len(cycles)}")
 
 
@@ -149,7 +152,7 @@ def simswot_pipeline(SIMSWOT_PHASE, client, output_dir, run_new, ASF, LLL, CG, s
 
                 suffix = ""
                 suffix += f"_{region}_cycle_{cycnum}"
-                suffix += f"_coarsen_to_1div{(48 / coarsen):.1f}deg"
+                suffix += f"_coarsen_to_1div{(48 / coarsen):.1f}deg" if coarsen else ""
                 suffix += f"_timemean_removed_{timemean_removal_method}" if timemean_removal_method else ""
                 suffix += "_cleaned" if cleaned else ""
                 suffix += "_flipped_swath" if flip_swath else ""
@@ -201,7 +204,7 @@ if __name__ == "__main__":
     ASF = True
     LLL = True
     CG = True
-    scalar = "q"
+    scalar = None
     Bessels = True
     timemean_removal_method = "cycle_mean"  # options: None, "cycle_mean", "linear_fit"
     cleaned = False
@@ -210,7 +213,8 @@ if __name__ == "__main__":
     coarsen = 5 # coarsen from 1/48 deg to 1/9.6 deg resolution
 
     SIMSWOT_PHASE = "science_phase" # options: "fast_phase", "science_phase"
-    output_dir = f"data/simSWOT/{SIMSWOT_PHASE}/2026-05-07"
+    output_dir = f"data/simSWOT/{SIMSWOT_PHASE}/2026-05-18"
     run_new = False
+    max_cycles = "001" # set to a string representing an integer to limit number of cycles processed for testing
 
-    simswot_pipeline(SIMSWOT_PHASE, client, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen)
+    simswot_pipeline(SIMSWOT_PHASE, client, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen, max_cycles)

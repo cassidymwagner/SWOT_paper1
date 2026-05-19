@@ -74,7 +74,7 @@ USE_TRY_EXCEPT = True
 
 
 
-def swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen, filter_vels):
+def swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen, filter_vels, max_cycles=None):
 
     print(f"Starting SWOT L3 pipeline for phase: {SWOT_PHASE}")
 
@@ -91,6 +91,9 @@ def swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL
         cycles = [str(c).zfill(3) for c in range(1, 49)]
 
     for idx, cycnum in enumerate(cycles):
+        if int(max_cycles) and idx >= int(max_cycles):
+            print(f"Reached max_cycles limit of {max_cycles}. Stopping further processing.")
+            break
         try:
             # determine glob pattern depending on phase and cycle
             if SWOT_PHASE == "fast_phase":
@@ -234,7 +237,8 @@ if __name__ == "__main__":
     filter_vels = True 
 
     SWOT_PHASE = "science_phase" # options: "fast_phase", "science_phase"
-    output_dir = f"data/SWOT_L3/SWOT_L3_LR_SSH_3.0/2026-05-15/{SWOT_PHASE}"
+    output_dir = f"data/SWOT_L3/SWOT_L3_LR_SSH_3.0/2026-05-18/{SWOT_PHASE}"
     run_new = False
+    max_cycles = "001" # set to a string representing an integer to limit number of cycles processed for testing
 
-    swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen, filter_vels)
+    swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen, filter_vels, max_cycles)
