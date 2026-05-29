@@ -209,12 +209,12 @@ if __name__ == "__main__":
 
     region_dict = {
         'acc': {'lat_north': -53, 'lat_south': -57.5, 'lon_east': 158, 'lon_west': 148, 'reduce_xd_num': 1},
-        # 'nwpacific': {'lat_north': 23, 'lat_south': 19, 'lon_east': 137, 'lon_west': 132, 'reduce_xd_num': 1},
-        # 'capebasin': {'lat_north': -41.01421, 'lat_south': -44.99279, 'lon_east': 16, 'lon_west': 11, 'reduce_xd_num': 1},
-        # 'newcaledonia': {'lat_north': -22, 'lat_south': -26, 'lon_east': 171, 'lon_west': 166, 'reduce_xd_num': 1},
-        # 'nwaustralia': {'lat_north': -11, 'lat_south': -15, 'lon_east': 125, 'lon_west': 120, 'reduce_xd_num': 1},
-        # 'westatlantic': {'lat_north': 38.7, 'lat_south': 32.7, 'lon_east': -73, 'lon_west': -76, 'reduce_xd_num': 1},
-        # 'labradorsea': {'lat_north': 63.79824, 'lat_south': 59.5549, 'lon_east': -58.52856, 'lon_west': -63.61784, 'reduce_xd_num': 1},
+        'nwpacific': {'lat_north': 23, 'lat_south': 19, 'lon_east': 137, 'lon_west': 132, 'reduce_xd_num': 1},
+        'capebasin': {'lat_north': -41.01421, 'lat_south': -44.99279, 'lon_east': 16, 'lon_west': 11, 'reduce_xd_num': 1},
+        'newcaledonia': {'lat_north': -22, 'lat_south': -26, 'lon_east': 171, 'lon_west': 166, 'reduce_xd_num': 1},
+        'nwaustralia': {'lat_north': -11, 'lat_south': -15, 'lon_east': 125, 'lon_west': 120, 'reduce_xd_num': 1},
+        'westatlantic': {'lat_north': 38.7, 'lat_south': 32.7, 'lon_east': -73, 'lon_west': -76, 'reduce_xd_num': 1},
+        'labradorsea': {'lat_north': 63.79824, 'lat_south': 59.5549, 'lon_east': -58.52856, 'lon_west': -63.61784, 'reduce_xd_num': 1},
         # 'Florida': {'lat_north': 29, 'lat_south': 24, 'lon_east': -77, 'lon_west': -82, 'reduce_xd_num': 1},
         # 'GrandBanks': {'lat_north': 40, 'lat_south': 35, 'lon_east': -45, 'lon_west': -50, 'reduce_xd_num': 1},
         # 'Arbic': {'lat_north': 43, 'lat_south': 27.5, 'lon_east': -40, 'lon_west': -60, 'reduce_xd_num': 1},
@@ -237,8 +237,8 @@ if __name__ == "__main__":
     filter_vels = True 
 
     SWOT_PHASE = "science_phase" # options: "fast_phase", "science_phase"
-    output_dir = f"data/SWOT_L3/SWOT_L3_LR_SSH_3.0/2026-05-18/{SWOT_PHASE}"
+    output_dir = f"data/SWOT_L3/SWOT_L3_LR_SSH_3.0/2026-05-27/{SWOT_PHASE}"
     run_new = False
-    max_cycles = "001" # set to a string representing an integer to limit number of cycles processed for testing
+    max_cycles = "005" # set to a string representing an integer to limit number of cycles processed for testing
 
     swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen, filter_vels, max_cycles)
