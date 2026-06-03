@@ -136,6 +136,7 @@ def mitgcm_pipeline(client, region_list, output_dir, run_new, ASF, LLL, CG, scal
 
         # Clean up at the end
         # client.close()
+        client = reset_client(client)
 
 if __name__ == "__main__":
     client = create_client()
@@ -147,7 +148,7 @@ if __name__ == "__main__":
     Bessels = True
     timemean_removal_method = "snapshot_mean"  # options: None, "snapshot_mean"
     taper_SF = True
-    coarsen = 5 # coarsen from 1/48 deg to 1/9.6 deg resolution
+    coarsen = None # coarsen from 1/48 deg to 1/9.6 deg resolution
 
     region_list = [
         'acc', 
@@ -159,8 +160,8 @@ if __name__ == "__main__":
         'westatlantic',
         ]
 
-    output_dir = "data/MITgcm/2026-05-27"
+    output_dir = "data/MITgcm/2026-06-01"
     run_new = False
-    max_dates = "20110919" # set to a string representing an integer to limit number of dates processed for testing
+    max_dates = False # set to a string representing an integer to limit number of dates processed for testing
 
     mitgcm_pipeline(client, region_list, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, taper_SF, coarsen, max_dates)

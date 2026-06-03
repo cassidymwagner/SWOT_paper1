@@ -91,7 +91,7 @@ def swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL
         cycles = [str(c).zfill(3) for c in range(1, 49)]
 
     for idx, cycnum in enumerate(cycles):
-        if int(max_cycles) and idx >= int(max_cycles):
+        if max_cycles is not None and int(max_cycles) > 0 and idx >= int(max_cycles):
             print(f"Reached max_cycles limit of {max_cycles}. Stopping further processing.")
             break
         try:
@@ -168,6 +168,10 @@ def swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL
                             filter_vels=filter_vels,
                             flip_swath=flip_swath
                         )
+                
+                # run memory cleanup after each region/cycle
+                client = reset_client(client)
+                
         except xr.AlignmentError as e:
             print(f"AlignmentError for region {region}, cycle {cycnum}: {e}")
             print("This may be due to mismatched dimensions in the input files. Skipping this region and cycle.")
@@ -233,12 +237,12 @@ if __name__ == "__main__":
     cleaned = False
     taper_SF = True
     flip_swath = True
-    coarsen = 5
+    coarsen = None
     filter_vels = True 
 
     SWOT_PHASE = "science_phase" # options: "fast_phase", "science_phase"
     output_dir = f"data/SWOT_L3/SWOT_L3_LR_SSH_3.0/2026-05-27/{SWOT_PHASE}"
     run_new = False
-    max_cycles = "005" # set to a string representing an integer to limit number of cycles processed for testing
+    max_cycles = None # set to a string representing an integer to limit number of cycles processed for testing
 
     swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen, filter_vels, max_cycles)

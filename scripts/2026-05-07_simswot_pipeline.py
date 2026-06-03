@@ -122,7 +122,7 @@ def simswot_pipeline(SIMSWOT_PHASE, client, output_dir, run_new, ASF, LLL, CG, s
         ))
 
         for idx, cycnum in enumerate(cycles):
-            if int(max_cycles) and idx >= int(max_cycles):
+            if max_cycles is not None and int(max_cycles) > 0 and idx >= int(max_cycles):
                 print(f"Reached max_cycles limit of {max_cycles}. Stopping further processing.")
                 break
             print(f"\nProcessing cycle: {cycnum} of {len(cycles)}")
@@ -194,6 +194,10 @@ def simswot_pipeline(SIMSWOT_PHASE, client, output_dir, run_new, ASF, LLL, CG, s
                             flip_swath=flip_swath,
                             coarsen=coarsen,
                         )
+                
+                # run memory cleanup after each region/cycle
+                client = reset_client(client)
+
     except IndexError as e:
         print(f"Skipping region {region} cycle {cycnum} due to IndexError: {e}.")
 
@@ -210,11 +214,11 @@ if __name__ == "__main__":
     cleaned = False
     taper_SF = True
     flip_swath = False
-    coarsen = 5 # coarsen from 1/48 deg to 1/9.6 deg resolution
+    coarsen = None # coarsen from 1/48 deg to 1/9.6 deg resolution
 
     SIMSWOT_PHASE = "science_phase" # options: "fast_phase", "science_phase"
     output_dir = f"data/simSWOT/2026-05-27/{SIMSWOT_PHASE}"
     run_new = False
-    max_cycles = "005" # set to a string representing an integer to limit number of cycles processed for testing
+    max_cycles = None # set to a string representing an integer to limit number of cycles processed for testing
 
     simswot_pipeline(SIMSWOT_PHASE, client, output_dir, run_new, ASF, LLL, CG, scalar, Bessels, timemean_removal_method, cleaned, taper_SF, flip_swath, coarsen, max_cycles)
