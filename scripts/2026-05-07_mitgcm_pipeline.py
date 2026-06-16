@@ -24,7 +24,7 @@ def create_client():
     return Client(
         n_workers=8,
         threads_per_worker=1, 
-        memory_limit='48GB',
+        memory_limit='40GB',
         silence_logs=logging.WARNING
     )
 

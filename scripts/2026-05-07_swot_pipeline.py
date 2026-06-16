@@ -107,6 +107,8 @@ def swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL
                 if int(cycnum) == 32:
                     glob_pattern = f"{parent_dir}/*/cycle_{cycnum}/*.nc"
 
+            print(f"Processing cycle: {cycnum} of {len(cycles)}")
+
             for region, params in region_dict.items():
 
                 reduce_xd_num = params["reduce_xd_num"]
@@ -171,7 +173,7 @@ def swot_pipeline(SWOT_PHASE, client, region_dict, output_dir, run_new, ASF, LLL
                 
                 # run memory cleanup after each region/cycle
                 client = reset_client(client)
-                
+
         except xr.AlignmentError as e:
             print(f"AlignmentError for region {region}, cycle {cycnum}: {e}")
             print("This may be due to mismatched dimensions in the input files. Skipping this region and cycle.")
